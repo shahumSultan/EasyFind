@@ -1,4 +1,4 @@
-# Easy find
+# Easy Find
 
 ## How to run the project
 You can run the project by running the following bash commands:
