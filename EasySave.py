@@ -8,13 +8,13 @@ import ObjectDetection
 
 def printHelp():
     print(f"""
-          Usage: {sys.argv[0]} [ACTION]
+Usage: {sys.argv[0]} [ACTION]
           
-          Parameters:
-            [CREATE DB ACTION] -> 
-            [RESET DB ACTION] ->
-            [DELETE DB ACTION] ->
-            [IMAGE FOLDER] ->
+Parameters:
+    [CREATE DB ACTION] -> Creates Database and Tables, invoked by using -c or --create.
+    [RESET DB ACTION] -> Resets the table and then creates fresh tables for use, invoked by using -r or --reset
+    [DELETE DB ACTION] -> Delete the database, invoked by using -d ["KEYWORD"] or --delete ["KEYWORD"]
+    [IMAGE FOLDER] -> The folder path needs to given, containing the images to be scanned and saved to the database. A single file path can also be used.
           """)
     
 
