@@ -142,6 +142,10 @@ def main():
         deleteDB()
         return
     
+    if sys.argv[1] != "-d" or "--delete" or "-r" or "--reset" or "-h" or "--help":
+        printHelp()
+        return
+    
     image_dir = sys.argv[1]
     
     image_dir = os.path.abspath(image_dir)
