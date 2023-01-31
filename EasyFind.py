@@ -4,11 +4,22 @@ import re
 import sqlite3
 import sys
 
+def splitIcon(word):
+    return word.replace('-', '')
+    
+
 ##Function for fetching data from database for the user
 def getDataFromDB(userWord):
-    wordResult = re.split(r"[+-]\s*", userWord)
-    includedWords = re.split(r"[+]\s*", userWord)
-    excludedWords = re.split(r"[-]\s*", userWord)
+    allWords = re.split(r"[+-]\s*", userWord)
+    excludedMatches = re.finditer(r"[-][a-z]*", userWord)
+    excludedWords = list(map(splitIcon, excludedMatches))
+    excludedSet = set(excludedWords)
+    
+    includedWords = []
+    for word in allWords:
+        if (word not in excludedWords):
+            includedWords.add(word)
+
     finalList = set()
     resultsLists = []
     allresults = set()
