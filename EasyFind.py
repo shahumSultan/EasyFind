@@ -7,23 +7,34 @@ import sys
 ##Function for fetching data from database for the user
 def getDataFromDB(userWord):
     wordResult = re.split(r"[+-]\s*", userWord)
+    includedWords = re.split(r"[+]\s*", userWord)
+    excludedWords = re.split(r"[-]\s*", userWord)
     finalList = set()
     resultsLists = []
     allresults = set()
+    excludedPaths = set()
     
     try:
         connection = sqlite3.connect('Final_Images.db')
         cursor = connection.cursor()
         print("Connected to Database")
         
-        for word in wordResult:
+        for word in includedWords:
             cursor.execute("SELECT distinct Images.path FROM Images INNER JOIN Objects ON Images.id=Objects.path_id WHERE objects in(?);", (word,))
             rows = cursor.fetchall()
             resultsLists.append(set(rows))
             allresults.update(rows)
+            
+        for word in excludedWords:
+            cursor.execute("SELECT distinct Images.path FROM Images INNER JOIN Objects ON Images.id=Objects.path_id WHERE objects in(?);", (word,))
+            rows = cursor.fetchall()
+            excludedPaths.update(rows)
         
         for item in allresults:
             existsInAll = True
+            if(item in excludedPaths):
+                existsInAll = False
+                break
             for x in resultsLists:
                 if(item not in x):
                     existsInAll = False
