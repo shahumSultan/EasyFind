@@ -4,7 +4,7 @@ import re
 import sqlite3
 import sys
 
-
+##Function for fetching data from database for the user
 def getDataFromDB(userWord):
     wordResult = re.split(r"[+-]\s*", userWord)
     finalList = set()
