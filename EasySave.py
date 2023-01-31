@@ -17,7 +17,7 @@ Parameters:
     [IMAGE FOLDER] -> The folder path needs to given, containing the images to be scanned and saved to the database. A single file path can also be used.
           """)
     
-
+##function for getting absolute image paths, will be saved in the database
 def getImagePaths(path):
     files = []
     with os.popen(f'find {path} -name *.jpeg -o -name *.JPG') as pipe:
@@ -25,7 +25,7 @@ def getImagePaths(path):
             files.append(line.strip())
     return files
 
-
+##Function for creating the database, to be run first
 def createDB():
     fileName = "Final_Images.db"
     
@@ -49,7 +49,7 @@ def createDB():
         if connection:
             connection.close()
             
-
+##Function for database reset, tables droped and fresh tables created
 def resetDB():
     try:
         connection = sqlite3.connect('Final_Images.db')
@@ -77,7 +77,7 @@ def resetDB():
         if connection:
             connection.close()
             
-
+##Function for database delete, the tables are dropped
 def deleteDB():
     try:
         connection = sqlite3.connect('Final_Images.db')
@@ -91,7 +91,8 @@ def deleteDB():
             connection.close()
             print("Database Deleted")
             
-            
+##Function that detects the objects in an image path, ObjectDetection module called
+##for the object detection purpose
 def getDataToSave(files):
     all_objects = []
     print("\n")
