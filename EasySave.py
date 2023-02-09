@@ -42,7 +42,9 @@ def createDB():
             path_id INTEGER,
             objects TEXT
             )''')
+        print("\n")
         print("New Database Created and Connected")
+        print("\n")
         connection.commit()
         connection.close()
     except sqlite3.Error as e:
