@@ -5,6 +5,7 @@ import sqlite3
 import sys
 import os
 import ObjectDetection
+import time
 
 def printHelp():
     print(f"""
@@ -14,7 +15,8 @@ Parameters:
     [CREATE DB ACTION] -> Creates Database and Tables, invoked by using -c or --create.
     [RESET DB ACTION] -> Resets the table and then creates fresh tables for use, invoked by using -r or --reset
     [DELETE DB ACTION] -> Delete the database, invoked by using -d or --delete
-    [IMAGE FOLDER] -> The folder path needs to given, containing the images to be scanned and saved to the database. A single file path can also be used.
+    [IMAGE FOLDER] -> The folder path needs to given, containing the images to be scanned and saved to the database. 
+    A single file path can also be used.
           """)
     
 ##function for getting absolute image paths, will be saved in the database
@@ -91,9 +93,10 @@ def deleteDB():
             connection.close()
             print("Database Deleted")
             
-##Function that detects the objects in an image path, ObjectDetection module called
+##Function that detects the objects in an image path and stores them in DB, ObjectDetection module called
 ##for the object detection purpose
 def getDataToSave(files):
+    startTime = time.time()
     all_objects = []
     print("\n")
     print("Connected to Database")
@@ -121,8 +124,10 @@ def getDataToSave(files):
         finally:
             if connection:
                 connection.close()
+    endTime = time.time()
     print("Data Inserted into Database")
     print("Database Connection Closed")
+    print("Total Time Taken: ", endTime-startTime, "seconds")
     print("\n")
     
 
@@ -143,9 +148,6 @@ def main():
         deleteDB()
         return
     
-    # if sys.argv[1] != "-d" or "--delete" or "-r" or "--reset" or "-h" or "--help":
-    #     printHelp()
-    #     return
     
     image_dir = sys.argv[1]
     
