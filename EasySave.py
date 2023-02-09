@@ -13,7 +13,7 @@ Usage: {sys.argv[0]} [ACTION]
 Parameters:
     [CREATE DB ACTION] -> Creates Database and Tables, invoked by using -c or --create.
     [RESET DB ACTION] -> Resets the table and then creates fresh tables for use, invoked by using -r or --reset
-    [DELETE DB ACTION] -> Delete the database, invoked by using -d ["KEYWORD"] or --delete ["KEYWORD"]
+    [DELETE DB ACTION] -> Delete the database, invoked by using -d or --delete
     [IMAGE FOLDER] -> The folder path needs to given, containing the images to be scanned and saved to the database. A single file path can also be used.
           """)
     
@@ -143,9 +143,9 @@ def main():
         deleteDB()
         return
     
-    if sys.argv[1] != "-d" or "--delete" or "-r" or "--reset" or "-h" or "--help":
-        printHelp()
-        return
+    # if sys.argv[1] != "-d" or "--delete" or "-r" or "--reset" or "-h" or "--help":
+    #     printHelp()
+    #     return
     
     image_dir = sys.argv[1]
     
