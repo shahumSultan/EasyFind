@@ -20,7 +20,7 @@ Parameters:
 ##function for getting absolute image paths, will be saved in the database
 def getImagePaths(path):
     files = []
-    with os.popen(f'find {path} -name *.jpeg -o -name *.JPG') as pipe:
+    with os.popen(f'find {path} -name *.jpeg -o -name *.jpg') as pipe:
         for line in pipe:
             files.append(line.strip())
     return files
