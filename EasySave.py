@@ -109,7 +109,7 @@ def deleteDB():
     finally:
         if connection:
             connection.close()
-            print("Database Deleted")
+            print("\nDatabase Delete\n")
             
 ##Function that detects the objects in an image path and stores them in DB, ObjectDetection module called
 ##for the object detection purpose
@@ -158,7 +158,7 @@ def main():
     elif sys.argv[1] == "--delete":
         deleteDB()
     elif sys.argv[1] == "-d":
-        deletIndex()
+        deletIndex(sys.argv[2])
     else:
         image_dir = sys.argv[1]
         image_dir = os.path.abspath(image_dir)
