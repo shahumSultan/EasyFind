@@ -12,9 +12,10 @@ def printHelp():
 Usage: {sys.argv[0]} [ACTION]
           
 Parameters:
-    [CREATE DB ACTION] -> Creates Database and Tables, invoked by using -c or --create.
-    [RESET DB ACTION] -> Resets the table and then creates fresh tables for use, invoked by using -r or --reset
-    [DELETE DB ACTION] -> Delete the database, invoked by using -d or --delete
+    [CREATE DB] -> Creates Database and Tables, use --create.
+    [RESET DB] -> Resets the table and then creates fresh tables, use --reset
+    [DELETE DB] -> Delete the entire database, use --delete
+    [DELETE RECORD] -> Deletes a record, use -d
     [IMAGE FOLDER] -> The folder path needs to given, containing the images to be scanned and saved to the database. 
     A single file path can also be used.
           """)
@@ -42,9 +43,7 @@ def createDB():
             path_id INTEGER,
             objects TEXT
             )''')
-        print("\n")
-        print("New Database Created and Connected")
-        print("\n")
+        print("\nNew Database Created and Connected\n")
         connection.commit()
         connection.close()
     except sqlite3.Error as e:
@@ -70,9 +69,7 @@ def resetDB():
             path_id INTEGER,
             objects TEXT
             )''')
-        print("\n")
-        print("Database Reset")
-        print("\n")
+        print("\nDatabase Reset\n")
         connection.commit()
         connection.close()
     except sqlite3.Error as e:
@@ -80,6 +77,25 @@ def resetDB():
     finally:
         if connection:
             connection.close()
+
+
+def deletIndex(path):
+    try:
+        sqliteConnection = sqlite3.connect('Final_Images.db')
+        cursor = sqliteConnection.cursor()
+        print("\nConnected to Database")
+        del_rec = """DELETE FROM Images where path=?;"""
+        cursor.execute(del_rec, (path,))
+        sqliteConnection.commit()
+        print("Record deleted successfully")
+        cursor.close()
+    except sqlite3.Error as error:
+        print("Error", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            print("Database Connection Closed\n")
+            
             
 ##Function for database delete, the tables are dropped
 def deleteDB():
@@ -100,8 +116,7 @@ def deleteDB():
 def getDataToSave(files):
     startTime = time.time()
     all_objects = []
-    print("\n")
-    print("Connected to Database")
+    print("\nConnected to Database")
     for file_path in files:
         try:
             connection = sqlite3.connect('Final_Images.db')
@@ -120,42 +135,35 @@ def getDataToSave(files):
                 connection.commit()
             cursor.close()
         except sqlite3.Error as e:
-            print("Error: Duplicate Image(s) being Inserted")
-            print("\n")
+            print("Error: Duplicate Image(s) being Inserted\n", e)
             exit()
         finally:
             if connection:
                 connection.close()
     endTime = time.time()
     print("Data Inserted into Database")
-    print("Database Connection Closed")
+    print("Database Connection Closed\n")
     print("Total Time Taken: ", endTime-startTime, "seconds")
-    print("\n")
     
 
 def main():
-    if sys.argv[1] == '-h' or sys.argv[1] == "--help":
+    if len(sys.argv) == 1:
         printHelp()
-        return
-    
-    if sys.argv[1] == "-c" or sys.argv[1] == "--create":
+    elif sys.argv[1] == "--help":
+        printHelp()
+    elif sys.argv[1] == "--create":
         createDB()
-        return
-    
-    if sys.argv[1] == "-r" or sys.argv[1] == "--reset":
+    elif sys.argv[1] == "--reset":
         resetDB()
-        return
-    
-    if sys.argv[1] == "-d" or sys.argv[1] == "--delete":
+    elif sys.argv[1] == "--delete":
         deleteDB()
-        return
-    
-    
-    image_dir = sys.argv[1]
-    
-    image_dir = os.path.abspath(image_dir)
-    image_paths = getImagePaths(image_dir)
-    getDataToSave(image_paths)
+    elif sys.argv[1] == "-d":
+        deletIndex()
+    else:
+        image_dir = sys.argv[1]
+        image_dir = os.path.abspath(image_dir)
+        image_paths = getImagePaths(image_dir)
+        getDataToSave(image_paths)
     
 
 if __name__ == "__main__":
