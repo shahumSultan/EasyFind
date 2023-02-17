@@ -87,7 +87,7 @@ def deletIndex(path):
         del_rec = """DELETE FROM Images where path=?;"""
         cursor.execute(del_rec, (path,))
         sqliteConnection.commit()
-        print("Record deleted successfully")
+        print("Record Deleted successfully")
         cursor.close()
     except sqlite3.Error as error:
         print("Error", error)
@@ -156,9 +156,17 @@ def main():
     elif sys.argv[1] == "--reset":
         resetDB()
     elif sys.argv[1] == "--delete":
-        deleteDB()
+        val = input("\nAre you sure you want to delete the entire DB? (Y/N) ")
+        if val == "Y" or val == "y":
+            deleteDB()
+        else:
+            exit()
     elif sys.argv[1] == "-d":
-        deletIndex(sys.argv[2])
+        val = input("\nAre you sure you want to delete this record? (Y/N) ")
+        if val == "Y" or val == "y":
+            deletIndex(sys.argv[2])
+        else:
+            exit()
     else:
         image_dir = sys.argv[1]
         image_dir = os.path.abspath(image_dir)
