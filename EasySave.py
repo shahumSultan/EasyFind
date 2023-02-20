@@ -15,7 +15,7 @@ Parameters:
     [CREATE DB] -> Creates Database and Tables, use --create.
     [RESET DB] -> Resets the table and then creates fresh tables, use --reset
     [DELETE DB] -> Delete the entire database, use --delete
-    [DELETE RECORD] -> Deletes a record, use -d
+    [DELETE RECORD] -> Deletes a record and the file path has to be used as input, use -d
     [IMAGE FOLDER] -> The folder path needs to given, containing the images to be scanned and saved to the database. 
     A single file path can also be used.
           """)
