@@ -78,7 +78,8 @@ def resetDB():
         if connection:
             connection.close()
 
-
+##Function that deletes a record from the database,
+##the one that the user will send
 def deletIndex(path):
     try:
         sqliteConnection = sqlite3.connect('Final_Images.db')
