@@ -1,5 +1,12 @@
 # Easy Find
 
+## How to start with the project
+    1. unzip the file "EasyFind.zip" on your desktop
+    2. open terminal and navigate to the folder by:
+        a. cd Desktop
+        b. cd EasyFind
+    3. use command "./EasySave.py --help" and "./EasyFind.py --help" to understand on how to use
+
 ## How to run the project
 You can run the project by running the following bash commands:
 
